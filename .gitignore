@@ -1,0 +1,7 @@
+.env
+.venv
+.langgraph_api
+.vscode
+.idea
+__pycache__/
+Chinook.db
