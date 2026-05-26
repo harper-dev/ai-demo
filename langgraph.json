@@ -1,5 +1,5 @@
 {
-  "dependencies": ["."],
+  "dependencies": ["pyproject.toml"],
   "graphs": {
     "graph_studio": "./graph_studio.py:agent"
   },
