@@ -1,10 +1,9 @@
 from langchain.chat_models import init_chat_model
 from typing_extensions import TypedDict
 from langgraph.graph import StateGraph, START, END
-# pyrefly: ignore [missing-import]
 from IPython.display import Image, display
 from dotenv import load_dotenv
-from agent.llm import llm
+from base.llm import llm
 
 
 class State(TypedDict):
@@ -58,21 +57,23 @@ workflow.add_edge("polish_joke", END)
 # Compile
 chain = workflow.compile()
 
-# Show workflow
-display(Image(chain.get_graph().draw_mermaid_png()))
+if __name__ == "__main__":
+    # Show workflow
+    display(Image(chain.get_graph().draw_mermaid_png()))
 
-# Invoke
-state = chain.invoke({"topic": "cats"})
-print("Initial joke:")
-print(state["joke"])
-print("\n--- --- ---\n")
-if "improved_joke" in state:
-    print("Improved joke:")
-    print(state["improved_joke"])
-    print("\n--- --- ---\n")
-
-    print("Final joke:")
-    print(state["final_joke"])
-else:
-    print("Final joke:")
+    # Invoke
+    state = chain.invoke({"topic": "cats"})
+    print("Initial joke:")
     print(state["joke"])
+    print("\n--- --- ---\n")
+    if "improved_joke" in state:
+        print("Improved joke:")
+        print(state["improved_joke"])
+        print("\n--- --- ---\n")
+
+        print("Final joke:")
+        print(state["final_joke"])
+    else:
+        print("Final joke:")
+        print(state["joke"])
+

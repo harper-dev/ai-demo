@@ -1,17 +1,21 @@
-from langgraph.graph import StateGraph,START,END
-from langchain_core.messages import HumanMessage
-from langchain_core.messages import SystemMessage
-from typing import TypedDict
-from pydantic import Field
-from pydantic import BaseModel
-from typing import Annotated, List
+import os
+import sys
+
+# Add project root directory to sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from langgraph.graph import StateGraph, START, END
+from langchain_core.messages import HumanMessage, SystemMessage
+from typing import TypedDict, Annotated, List
+from pydantic import BaseModel, Field
 import operator
 from langgraph.types import Send
-from agent.llm import llm
+from base.llm import llm
 from IPython.display import display, Image
 
 # Schema for structured output to use in planning
 class Section(BaseModel):
+    model_config = {"extra": "forbid"}
     name: str = Field(
         description="Name for this section of the report.",
     )
@@ -21,6 +25,7 @@ class Section(BaseModel):
 
 
 class Sections(BaseModel):
+    model_config = {"extra": "forbid"}
     sections: List[Section] = Field(
         description="Sections of the report.",
     )
@@ -121,11 +126,12 @@ orchestrator_worker_builder.add_edge("synthesizer", END)
 # Compile the workflow
 orchestrator_worker = orchestrator_worker_builder.compile()
 
-# Show the workflow
-display(Image(orchestrator_worker.get_graph().draw_mermaid_png()))
+if __name__ == "__main__":
+    # Show the workflow
+    display(Image(orchestrator_worker.get_graph().draw_mermaid_png()))
 
-# Invoke
-state = orchestrator_worker.invoke({"topic": "Create a report on LLM scaling laws"})
+    # Invoke
+    state = orchestrator_worker.invoke({"topic": "Create a report on LLM scaling laws"})
 
-from IPython.display import Markdown
-Markdown(state["final_report"])
+    from IPython.display import Markdown
+    Markdown(state["final_report"])

@@ -3,10 +3,8 @@
     "pyproject.toml"
   ],
   "graphs": {
-    "graph_studio": "./graph_studio.py:agent",
-    "demo1": "./agent/demo1.py:graph",
-    "workflow": "./agent/workflow.py:workflow",
-    "orchestrator_worker": "./agent/orchestrator_worker.py:orchestrator_worker"
+    "orchestrator_worker": "./agent/orchestrator_worker.py:orchestrator_worker",
+    "evaluator_optimizer": "./agent/evaluator_optimizer.py:optimizer_workflow"
   },
   "env": ".env"
 }
